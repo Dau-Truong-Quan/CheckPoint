@@ -270,29 +270,7 @@ hr {
 	</style>
 </head>
 <body>
-	<title>CheckPoint</title>
-	<meta http-equiv="content-type" content="text/html; charset=utf-8">
-	<link href="style.css" rel="stylesheet" type="text/css" media="screen">
-	</head>
-	<body>
-	<div id="header">
-	  <div id="menu">
-	    <ul>
-	      <li><a href="#">Trang chủ</a></li>
-	      <li><a href="declaration-mgr.htm">Danh sách</a></li>
-	      <li class="current_page_item"><a href="declaration.htm">Khai báo</a></li>      
-	      <li><a href="mailer/form2.htm">Liên hệ</a></li>
-	    </ul>
-	  </div>
-	  <div id="search">
-	    <form id="searchform" method="get" action="#">
-	      <fieldset>
-	      <input id="s" type="text" name="s" value="" class="text">
-	      <input id="x" type="submit" value="Search" class="button">
-	      </fieldset>
-	    </form>
-	  </div>
-	</div>
+
 	<div id="logo">
 	  <h1><a href="#">Check point</a></h1>
 	</div>
@@ -301,47 +279,48 @@ hr {
   		<div id="content">
 		    <div class="post">
 		      <h1>Thông tin </h1>
-				<form:form action="declaration/saveData.htm" method="post" modelAttribute="user">
+				<form:form method="post" modelAttribute="user">
 				<div>Họ và tên</div>
-				<form:input path="fullName" value="${PersonalInfor.FullName }"/>
+				<form:input path="fullName" />
 				
 				<div>Số điện thoại</div>
-				<form:input path="phone" value="${Declaration.phone }"/>
+				<form:input path="phone" />
 			
 				<div>Quốc tịch</div>
-				<form:input path="nationality" value="${PersonalInfor.Nationality }"/>
+				<form:input path="nationality" />
 				
 				<div>Địa chỉ</div>
-				<input name="addressPerson" />
+				<input name="addressPerson" value="${addressPerson }"/>
 				
-				
+				<form:input path="idAddress.id" type="hidden" class="form-control"/>  
+				<form:input path="id" type="hidden" class="form-control"/>  
 				<div>Giới tính</div>
 				<form:select path="sex" class="form-control valid" aria-required="true" aria-invalid="false"> 
-				<form:option value="Nam" label="Nam"/>
-				<form:option value="Nữ" label="Nữ"/>
-				<form:option value="Khác" label="Khác"/>
+					<form:option value="Nam" label="Nam"/>
+					<form:option value="Nữ" label="Nữ"/>
+					<form:option value="Khác" label="Khác"/>
 				</form:select>
 				
 				<p>Đi từ: </p>				
 				<div>Khu vực</div>
-				<input name="addressBegin" />
+				<input name="addressBegin" value="${addressBegin }"/>
 				
 				<p>Đến: </p>
 				<div>Khu vực</div>
-				<input name="addressEnd" />
+				<input name="addressEnd" value="${addressEnd }"/>
 				</br>
 				<div>Ngày</div>
-				<input name="date"  type="date"/>
+				<input name="date"  type="date" value="${date }"/>
 				</br>
 				
 				<div>Phương tiện</div>
 				<select class="form-control valid" name="vehicle" aria-required="true" aria-invalid="false"> 
-				<option value="Không">Không</option>
-				<option value="Xa khách">Xe khách</option>
-				<option value="Xe cá nhân">Xe cá nhân</option>
+					<option value="Không">Không</option>
+					<option value="Xa khách">Xe khách</option>
+					<option value="Xe cá nhân">Xe cá nhân</option>
 				</select>
 				
-				<button>Lưu</button>
+				<button>Cập nhật</button>
 				</form:form>
 		      <div class="entry"></div>
 		    </div>

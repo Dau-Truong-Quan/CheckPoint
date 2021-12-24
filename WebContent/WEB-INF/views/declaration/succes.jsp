@@ -10,11 +10,11 @@
 <body>
 	<h3>THÔNG TIN</h3>
 	<ul>
-		<li>HỌ VÀ TÊN: ${name}</li>
-		<li>SỐ ĐIỆN THOẠI: ${phone}</li>
-		<li>ĐỊA CHỈ: ${address}</li>
+		<li>HỌ VÀ TÊN: ${user.fullName}</li>
+		<li>SỐ ĐIỆN THOẠI: ${user.phone}</li>
+		<li>ĐỊA CHỈ: ${user.idAddress.addressName}</li>
 		<li>NGÀY: ${date}</li>
-		<li>CMND/CCCD: ${IDCard}</li>
+		<li>QUỐC TỊCH: ${user.nationality}</li>
 	</ul>
 </body>
 </html>

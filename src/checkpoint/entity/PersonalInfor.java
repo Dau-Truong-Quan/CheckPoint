@@ -60,14 +60,14 @@ public class PersonalInfor {
 	public PersonalInfor(int iD, String fullName, String sex, String userName, String nationality, Address idAddress,
 			String dateRange, String password, String phone, Collection<Declaration> listDeclaration) {
 		super();
-		id = iD;
-		fullName = fullName;
-		sex = sex;
-		userName = userName;
-		nationality = nationality;
+		this.id = iD;
+		this.fullName = fullName;
+		this.sex = sex;
+		this.userName = userName;
+		this.nationality = nationality;
 		this.idAddress = idAddress;
-		dateRange = dateRange;
-		password = password;
+		this.dateRange = dateRange;
+		this.password = password;
 		this.phone = phone;
 		this.listDeclaration = listDeclaration;
 	}
@@ -77,7 +77,7 @@ public class PersonalInfor {
 	}
 
 	public void setUserName(String userName) {
-		userName = userName;
+		this.userName = userName;
 	}
 
 	public String getPassword() {
@@ -85,7 +85,7 @@ public class PersonalInfor {
 	}
 
 	public void setPassword(String password) {
-		password = password;
+		this.password = password;
 	}
 
 	public Collection<Declaration> getListDeclaration() {
@@ -101,7 +101,7 @@ public class PersonalInfor {
 	}
 
 	public void setFullName(String fullName) {
-		fullName = fullName;
+		this.fullName = fullName;
 	}
 
 	public String getSex() {
@@ -109,15 +109,15 @@ public class PersonalInfor {
 	}
 
 	public void setSex(String sex) {
-		sex = sex;
+		this.sex = sex;
 	}
 
-	public int getID() {
+	public int getId() {
 		return id;
 	}
 
-	public void setID(int iD) {
-		id = iD;
+	public void setId(int iD) {
+		this.id = iD;
 	}
 
 	public String getNationality() {
@@ -142,12 +142,8 @@ public class PersonalInfor {
 		return dateRange;
 	}
 
-	
-
-	
-
 	public void setDateRange(String dateRange) {
-		dateRange = dateRange;
+		this.dateRange = dateRange;
 	}
 
 	public String getPhone() {

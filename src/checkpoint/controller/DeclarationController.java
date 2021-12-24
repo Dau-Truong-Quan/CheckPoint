@@ -1,8 +1,12 @@
 package checkpoint.controller;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -41,7 +45,7 @@ public class DeclarationController {
 	public List<Declaration> getStaffs() {
 		Session session = factory.getCurrentSession();
 
-		// không xài nhưng mà nó đòi thì phải cho
+		// khÃ´ng xÃ i nhÆ°ng mÃ  nÃ³ Ä‘Ã²i thÃ¬ pháº£i cho
 		Transaction t = session.beginTransaction();
 		String hql = "from Declaration";
 		Query query = session.createQuery(hql);
@@ -68,12 +72,46 @@ public class DeclarationController {
 		return 1;
 	}
 	
+	public int updateUser(PersonalInfor user) {
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+
+		try {
+			session.update(user);
+			t.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			t.rollback();
+			return 0;
+		} finally {
+			session.close();
+		}
+		return 1;
+	}
+	
 	public int insertAddress(Address address) {
 		Session session = factory.openSession();
 		Transaction t = session.beginTransaction();
 
 		try {
 			session.save(address);
+			t.commit();
+		} catch (Exception e) {
+			e.printStackTrace();
+			t.rollback();
+			return 0;
+		} finally {
+			session.close();
+		}
+		return 1;
+	}
+	
+	public int updateAddress(Address address) {
+		Session session = factory.openSession();
+		Transaction t = session.beginTransaction();
+
+		try {
+			session.update(address);
 			t.commit();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -120,12 +158,15 @@ public class DeclarationController {
 		}
 	  
 	  @RequestMapping(value = "/declaration/saveData", method= RequestMethod.POST)
-		public String saveDate(ModelMap model, HttpServletRequest request, @ModelAttribute("user") PersonalInfor user) {
+		public String saveData(ModelMap model, HttpServletRequest request, @ModelAttribute("user") PersonalInfor user) {
 		  
 		  Address addressPerson = new Address();
 		  addressPerson.setAddressName(request.getParameter("addressPerson"));
 		  insertAddress(addressPerson);
 		  addressPerson = getLastAddress();
+		  
+		  user.setIdAddress(addressPerson);
+		  insertUser(user);
 		  System.out.println(addressPerson.getAddressName());
 		  
 		  
@@ -135,9 +176,115 @@ public class DeclarationController {
 		  addressBegin = getLastAddress();
 		  System.out.println(addressBegin.getAddressName());
 		  
-			return "declaration/succes";
+		  Address addressEnd = new Address();
+		  addressEnd.setAddressName(request.getParameter("addressEnd"));
+		  insertAddress(addressEnd);
+		  addressEnd = getLastAddress();
+		  System.out.println(addressEnd.getAddressName());
+		  
+		  String dateStr = request.getParameter("date");
+		  Date date = null;
+		  try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+				System.out.println(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		  Declaration declaration = new Declaration();
+		  declaration.setDate(date);
+		  declaration.setEndAddressCode(addressEnd);
+		  declaration.setStartAddressCode(addressBegin);
+		  declaration.setNameVehicle(request.getParameter("vehicle"));
+		  declaration.setPersonalId(user);
+		  declaration.setPhone(user.getPhone());
+		  insertDeclaration(declaration);
+		  
+		  model.addAttribute("date", date);
+		  
+		  return "declaration/succes";
 		}
 	  
+	  public Declaration getDeclarationByID(Integer id) {
+			Session session = factory.openSession();
+			String hql = "from Declaration where id = :id";
+			Query query = session.createQuery(hql);
+			query.setParameter("id", id);
+
+			Declaration list = (Declaration) query.list().get(0);
+			session.close();
+			return list;
+		}
+	  
+	  public int updateDeclaration(Declaration declaration) {
+			Session session = factory.openSession();
+			Transaction t = session.beginTransaction();
+
+			try {
+				session.update(declaration);
+				t.commit();
+			} catch (Exception e) {
+				e.printStackTrace();
+				t.rollback();
+				return 0;
+			} finally {
+				session.close();
+			}
+			return 1;
+		}
+	  
+	  @RequestMapping(value = "edit-declaration", method = RequestMethod.GET)
+	  public String edit(HttpSession session, ModelMap model, @RequestParam("id") Integer id) {
+		  
+		  Declaration declaration = getDeclarationByID(id);
+		  
+		  model.addAttribute("user", declaration.getPersonalId());
+		  model.addAttribute("addressPerson", declaration.getPersonalId().getIdAddress().getAddressName());
+		  model.addAttribute("addressBegin", declaration.getStartAddressCode().getAddressName());
+		  model.addAttribute("addressEnd", declaration.getEndAddressCode().getAddressName());
+		  model.addAttribute("date", declaration.getDate());
+		  session.setAttribute("declaration", declaration);
+		  
+		  return "declaration/editDeclaration";
+	  }
+	  
+	  @RequestMapping(value = "edit-declaration", method = RequestMethod.POST)
+	  public String saveEdit(HttpSession session, ModelMap model, HttpServletRequest request, @ModelAttribute("user") PersonalInfor user) {
+		  
+		  Declaration declaration = (Declaration) session.getAttribute("declaration");
+		  
+		  Address addressPerson = declaration.getPersonalId().getIdAddress();
+		  addressPerson.setAddressName(request.getParameter("addressPerson"));
+		  updateAddress(addressPerson);
+		 
+		  updateUser(user);
+		  System.out.println(addressPerson.getAddressName());
+		  
+		  
+		  Address addressBegin = declaration.getStartAddressCode();
+		  addressBegin.setAddressName(request.getParameter("addressBegin"));
+		  updateAddress(addressBegin);
+		  
+		  Address addressEnd = declaration.getEndAddressCode();
+		  addressEnd.setAddressName(request.getParameter("addressEnd"));
+		  updateAddress(addressEnd);
+		  
+		  String dateStr = request.getParameter("date");
+		  Date date = null;
+		  try {
+				date = new SimpleDateFormat("yyyy-MM-dd").parse(dateStr);
+				System.out.println(date);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}		
+		  
+		  declaration.setDate(date);
+		  declaration.setNameVehicle(request.getParameter("vehicle"));
+		  declaration.setPhone(user.getPhone());
+		  updateDeclaration(declaration);
+		  return "redirect:/declaration-mgr.htm";
+	  }
 	  
 	 @RequestMapping(params = "btnInsert") public String insert(ModelMap model,
 	  
@@ -157,18 +304,18 @@ public class DeclarationController {
 //	 
 //	 @RequestMapping(params = "btnDelete")
 //	 public String delete(ModelMap model) {
-//	 model.addAttribute("message", "Bạn gọi delete()"); 
+//	 model.addAttribute("message", "Báº¡n gá»�i delete()"); 
 //	 return "declaration-mgr";
 //	 }
 //	 
 //	 @RequestMapping(params = "btnReset") 
 //	 public String reset(ModelMap model) {
-//	 model.addAttribute("message", "Bạn gọi reset()"); 
+//	 model.addAttribute("message", "Báº¡n gá»�i reset()"); 
 //	 return "declaration-mgr"; }
 //	 
 //	 @RequestMapping(params = "lnkEdit") 
 //	 public String edit(ModelMap model) {
-//	 model.addAttribute("message", "Bạn gọi edit()"); 
+//	 model.addAttribute("message", "Báº¡n gá»�i edit()"); 
 //	 return "declaration-mgr"; }
 	
 }

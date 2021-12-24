@@ -23,10 +23,10 @@ public class Address {
 	
 	private String addressName;
 
-	@OneToMany(mappedBy = "StartAddressCode", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "startAddressCode", fetch = FetchType.EAGER)
 	private Collection<Declaration> listStartAddressCode;
 	
-	@OneToMany(mappedBy = "EndAddressCode", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "endAddressCode", fetch = FetchType.EAGER)
 	private Collection<Declaration> listEndAddressCode;
 	
 	

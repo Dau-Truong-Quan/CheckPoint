@@ -9,6 +9,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="`Declaration`")
@@ -27,12 +31,14 @@ public class Declaration {
 	
 	@ManyToOne
 	@JoinColumn(name = "StartAddressCode")
-	private Address StartAddressCode;
+	private Address startAddressCode;
 	
 	@ManyToOne
 	@JoinColumn(name = "EndAddressCode")
-	private Address EndAddressCode;
+	private Address endAddressCode;
 	
+	@Temporal(TemporalType.DATE)
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	@Column(name = "Date")
 	private Date date;
 	
@@ -53,9 +59,9 @@ public class Declaration {
 	public String getNameVehicle() {
 		return nameVehicle;
 	}
-	public void setName(String nameVehicle) {
+	public void setNameVehicle(String nameVehicle) {
 		this.nameVehicle = nameVehicle;
-	}
+	}	
 	public int getId() {
 		return id;
 	}
@@ -73,8 +79,8 @@ public class Declaration {
 		super();
 		this.id = id;
 		this.personalId = personalId;
-		StartAddressCode = startAddressCode;
-		EndAddressCode = endAddressCode;
+		this.startAddressCode = startAddressCode;
+		this.endAddressCode = endAddressCode;
 		this.date = date;
 		this.phone = phone;
 		this.nameVehicle = nameVehicle;
@@ -86,16 +92,16 @@ public class Declaration {
 		this.personalId = personalId;
 	}
 	public Address getStartAddressCode() {
-		return StartAddressCode;
+		return startAddressCode;
 	}
 	public void setStartAddressCode(Address startAddressCode) {
-		StartAddressCode = startAddressCode;
+		this.startAddressCode = startAddressCode;
 	}
 	public Address getEndAddressCode() {
-		return EndAddressCode;
+		return endAddressCode;
 	}
 	public void setEndAddressCode(Address endAddressCode) {
-		EndAddressCode = endAddressCode;
+		this.endAddressCode = endAddressCode;
 	}
 	public String getPhone() {
 		return phone;
@@ -103,10 +109,5 @@ public class Declaration {
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public void setNameVehicle(String nameVehicle) {
-		this.nameVehicle = nameVehicle;
-	}
 	
-	
-
 }

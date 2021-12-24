@@ -18,20 +18,21 @@
 			<th>Họ và tên</th>		
 			<th>Số điện thoại</th>
 			<th>Địa chỉ</th>
-			<th>CMND/CCCD</th>
+			<th>Phương tiện</th>
 			<th>Ngày</th>
+			<th>Sửa</th>
 		</tr>
 	
 		
 		<c:forEach var="s" items="${list}">
 			<tr>
-					<td>${s.id}</td>
-			<td>${s.personalId.fullName}</td>
-			<td>${s.phone}</td>
-			<td>${s.personalId.nationality}</td>
-			<td>${s.date}</td>
-			<td>${s.nameVehicle}</td>
-			<td><a href="declaration-mgr.htm?lnkEdit">Sửa</a></td>
+				<td>${s.id}</td>
+				<td>${s.personalId.fullName}</td>
+				<td>${s.phone}</td>
+				<td>${s.personalId.idAddress.addressName}</td>
+				<td>${s.nameVehicle}</td>
+				<td>${s.date}</td>				
+				<td><a href="edit-declaration.htm?id=${s.id }">Sửa</a></td>
 			</tr>
 		</c:forEach>
 	</table>
