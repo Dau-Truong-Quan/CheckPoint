@@ -4,6 +4,7 @@
 <html>
 <head>
 	<meta charset="utf-8">
+	<base href="${pageContext.servletContext.contextPath}/">
 	<title>Quản lý tại chốt</title>
 <style type="text/css">
 		{

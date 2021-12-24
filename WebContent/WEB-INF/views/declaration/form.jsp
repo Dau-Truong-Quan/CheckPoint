@@ -4,6 +4,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+<base href="${pageContext.servletContext.contextPath}/">
 <meta charset="utf-8">
 <title>Insert title here</title>
 <style type="text/css">
@@ -267,6 +268,16 @@ hr {
 .post .meta a {
 	color: #CFCFCF;
 }
+
+.errors{
+     color: red;
+     font-style: italic;
+}
+
+.errorss{
+     color: red;
+     font-style: italic;
+}
 	</style>
 </head>
 <body>
@@ -304,34 +315,48 @@ hr {
 				<form:form action="declaration/saveData.htm" method="post" modelAttribute="user">
 				<div>Họ và tên</div>
 				<form:input path="fullName" value="${PersonalInfor.FullName }"/>
+				<br>
+				<form:errors path="fullName" cssClass="errors" />
 				
 				<div>Số điện thoại</div>
 				<form:input path="phone" value="${Declaration.phone }"/>
+				<br>
+				<form:errors path="phone" cssClass="errors" />
 			
 				<div>Quốc tịch</div>
 				<form:input path="nationality" value="${PersonalInfor.Nationality }"/>
+				<br>
+				<form:errors path="nationality" cssClass="errors" />
 				
 				<div>Địa chỉ</div>
 				<input name="addressPerson" />
+				<br>
+				<label class="errorss" >${addressPersonError }</label>
 				
 				
 				<div>Giới tính</div>
 				<form:select path="sex" class="form-control valid" aria-required="true" aria-invalid="false"> 
-				<form:option value="Nam" label="Nam"/>
-				<form:option value="Nữ" label="Nữ"/>
-				<form:option value="Khác" label="Khác"/>
+					<form:option value="Nam" label="Nam"/>
+					<form:option value="Nữ" label="Nữ"/>
+					<form:option value="Khác" label="Khác"/>
 				</form:select>
 				
 				<p>Đi từ: </p>				
 				<div>Khu vực</div>
 				<input name="addressBegin" />
+				<br>
+				<label class="errorss" >${addressBeginError }</label>
 				
 				<p>Đến: </p>
 				<div>Khu vực</div>
 				<input name="addressEnd" />
+				<br>
+				<label class="errorss" >${addressEndError }</label>
 				</br>
 				<div>Ngày</div>
 				<input name="date"  type="date"/>
+				<br>
+				<label class="errorss" >${dateError }</label>
 				</br>
 				
 				<div>Phương tiện</div>

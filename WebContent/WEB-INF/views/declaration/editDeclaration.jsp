@@ -267,6 +267,16 @@ hr {
 .post .meta a {
 	color: #CFCFCF;
 }
+
+.errors{
+     color: red;
+     font-style: italic;
+}
+
+.errorss{
+     color: red;
+     font-style: italic;
+}
 	</style>
 </head>
 <body>
@@ -282,15 +292,23 @@ hr {
 				<form:form method="post" modelAttribute="user">
 				<div>Họ và tên</div>
 				<form:input path="fullName" />
+				<br>
+				<form:errors path="fullName" cssClass="errors" />
 				
 				<div>Số điện thoại</div>
 				<form:input path="phone" />
+				<br>
+				<form:errors path="phone" cssClass="errors" />
 			
 				<div>Quốc tịch</div>
 				<form:input path="nationality" />
+				<br>
+				<form:errors path="nationality" cssClass="errors" />
 				
 				<div>Địa chỉ</div>
 				<input name="addressPerson" value="${addressPerson }"/>
+				<br>
+				<label class="errorss" >${addressPersonError }</label>
 				
 				<form:input path="idAddress.id" type="hidden" class="form-control"/>  
 				<form:input path="id" type="hidden" class="form-control"/>  
@@ -304,10 +322,14 @@ hr {
 				<p>Đi từ: </p>				
 				<div>Khu vực</div>
 				<input name="addressBegin" value="${addressBegin }"/>
+				<br>
+				<label class="errorss" >${addressBeginError }</label>
 				
 				<p>Đến: </p>
 				<div>Khu vực</div>
 				<input name="addressEnd" value="${addressEnd }"/>
+				<br>
+				<label class="errorss" >${addressEndError }</label>
 				</br>
 				<div>Ngày</div>
 				<input name="date"  type="date" value="${date }"/>
